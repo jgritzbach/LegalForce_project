@@ -5,3 +5,4 @@ __pycache__
 *.pyc
 *.pyd
 temp_texts.py
+testing.py
