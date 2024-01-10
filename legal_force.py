@@ -3,49 +3,63 @@ from dateutil import easter
 
 
 class LegalForce:
-
-    def __init__(self):
+    """
+    a tool related to the computations of a legal force of court decisions in the Czech Republic
+    """
+    def __init__(self, given_date = None):
         """
-        On creation, we store czech public holidays in the instance list - no need for recreating the list later
+        All computations are related to a given date, expected to be passed on creation. If omitted, today is passed.
+        The given date is stored as instance property and can be changed later by setting the property on different date
         """
-        self.__holidays = self.czech_public_holidays()  # method is used to determine the holidays,
+        if given_date is None:
+            given_date = date.today()  # if date is not specified, it will be today
 
-    def is_weekend(self, given_date):
+        self.given_date = given_date
+
+    @property
+    def given_date(self):
+        """
+        returns inner property of given date
+        """
+        return self.__given_date
+
+    @given_date.setter
+    def given_date(self, arg_date):
+        """
+        sets given date as inner property, if passed argument is valid date or datetime object. Otherwise TypeError
+        by given date being passed once and stored in property, type validity needs to be checked just once
+        """
+        self.__given_date = self.__valid_date(arg_date)
+        self.__holidays = self.czech_public_holidays()  # anytime given date is set, holidays are recalculated
+
+    def is_weekend(self):
         """
         returns True if given date is saturday or sunday. Otherwise, returns False
         """
-        if not self.__valid_date(given_date):
-            raise TypeError
 
-        return given_date.weekday() in {5, 6}
+        return self.given_date.weekday() in {5, 6}
 
-    def is_public_holiday(self, given_date):
+    def is_public_holiday(self):
         """
         returns True if given date is czech public holiday. Otherwise, returns False
         """
-        if not self.__valid_date(given_date):
-            raise TypeError
 
-        return given_date in self.__holidays
+        return self.given_date in self.__holidays
 
-    def is_workday(self, given_date):
+    def is_workday(self):
         """
         returns True if given date is ordinary workday. Otherwise, returns False
         """
-        if not self.__valid_date(given_date):
-            raise TypeError
 
-        return not (self.is_weekend(given_date) or self.is_public_holiday(given_date))
+        return not (self.is_weekend() or self.is_public_holiday())
 
-    def czech_public_holidays(self, year=None):
+    def czech_public_holidays(self):
         """returns a list of public holidays in the Czech Republic for a given year
 
         :param year: a year is needed to determine the Easter. Omitting the year results in current year being used.
         :return: a list of datetime.date objects
         """
-        if year is None:
-            year = date.today().year
-
+        year = self.given_date.year
         easter_date = easter.easter(year)
 
         holidays = [
@@ -62,14 +76,17 @@ class LegalForce:
             date(year, 12, 24),  # Christmas Eve
             date(year, 12, 25),  # First Day of Christmas
             date(year, 12, 26),  # Second Day of Christmas
-            date(year + 1, 1, 1),  # next New year
-        ]
+            date(year + 1, 1, 1),  # next New year -> since appeal window is just 15 days and no other public
+        ]                                       # holiday falls on January, this is enough
 
         return holidays
 
     def __valid_date(self, date_to_test):
         """
-        return true if argument is either datetime.date or datetime.datetime object
+        raises TypeError if passed argument is not an instance of either datetime.date or datetime.datetime object
+        otherwise returns the passed argument intact
         """
+        if not (isinstance(date_to_test, date) or isinstance(date_to_test, datetime)):
+            raise TypeError
 
-        return isinstance(date_to_test, date) or isinstance(date_to_test, datetime)
+        return date_to_test
