@@ -11,6 +11,8 @@ class LegalForce:
         All computations are related to a given date, expected to be passed on creation. If omitted, today is passed.
         The given date is stored as instance property and can be changed later by setting the property on different date
         """
+        self.__APPEAL_DEADLINE = 15  # appeal deadline is 15 days long since successfully delivery of the court decision
+
         if given_date is None:
             given_date = date.today()  # if date is not specified, it will be today
 
