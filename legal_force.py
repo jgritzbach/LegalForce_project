@@ -2,6 +2,64 @@ from datetime import date, datetime, timedelta
 from dateutil import easter
 
 
+class LegalForceManager:
+    """Serves for user interaction with the LegalForce class
+
+    LegalForce can be used by other parts of your program through its methods behaving like "API"
+    However, with this manager, it can be used to compute legal force by interacting with the user
+    """
+
+    @staticmethod
+    def interact():
+        """Prompts user to enter date as string. Returns the date of legal force counted from the given date
+
+        Method works in cycle, so that as many consecutive dates can be entered as needed.
+        This is useful, since it is very common technique for court officers to count many legal force dates at once.
+        """
+
+        print('\nWelcome to interactive counter of legal force!\n')
+        print(("Fill in the date of successful delivery of the court decision \n"
+               "to the last party with the right to appeal.\n"
+               "(or keep blank and press ENTER to quit)\n"))
+
+        quit_by = {"", "q", 0, "quit", "quit()", "exit", "exit()", "abort", "abort()", }
+        allowed_formats = ["%y-%m-%d", "%Y-%m-%d", "%y.%m.%d", "%Y.%m.%d", "%y,%m,%d", "%Y,%m,%d"]
+        prompt = "fill in the date (y-m-d): "  # more formats are supported, although the prompt is brief at first
+        user_input = True  # default input is True to start the cycle
+
+        while user_input:
+
+            # acquiring the input
+            arg_date = None  # reset the date provided by the user in each cycle to enable
+            user_input = input(prompt)
+            user_input = user_input.replace(" ", "")  # we trim any spaces, even in the middle
+
+            # if user wants to quit
+            if user_input.lower() in quit_by:  # any of the quiting phrase
+                print('\nGoodbye!\n')
+                break  # will end the cycle immediately
+
+            # trying to construct date object from user input
+            for allowed_format in allowed_formats:  # we iterate through allowed formats in a hope to find the match
+                try:
+                    arg_date = datetime.strptime(user_input, allowed_format).date()  # if the user input fits
+                    break  # then the construction of date object was successful - we can stop the iteration
+
+                except ValueError:  # if the iterated format did not succeed
+                    continue  # let us try another one
+
+            # here, the efforts to construct the date object from user input are over, successful or not
+
+            if arg_date:  # if the date object was successfully constructed from the user input
+                legal_force_date = LegalForce.legal_force(arg_date)  # we can pass it to LegalForce for calculation
+                print(f'the date of the legal force: {legal_force_date}\n')  # and print it
+
+            else:  # if the user input did not fit any of the allowed formats, we notify the user
+                print(f'\n{user_input} is an inappropriate date format!\n')
+                print("use one of these formats:\n", "\n".join(allowed_formats), "\n", sep="")
+                print('(or keep blank and press Enter to quit)\n')
+
+
 class LegalForce:
     """
     a tool related to the computations of a legal force of court decisions in the Czech Republic
@@ -92,3 +150,7 @@ class LegalForce:
             raise TypeError
 
         return date_to_test
+
+
+if __name__ == "__main__":
+    LegalForceManager.interact()    # if run directly, starts the interaction with the user
