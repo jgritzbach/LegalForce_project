@@ -6,3 +6,4 @@ __pycache__
 *.pyd
 temp_texts.py
 testing.py
+screenshots/
