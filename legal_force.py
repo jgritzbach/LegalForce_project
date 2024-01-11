@@ -7,9 +7,7 @@ class LegalForce:
     a tool related to the computations of a legal force of court decisions in the Czech Republic
     """
 
-    def __init__(self):
-
-        self.__APPEAL_DEADLINE = 15  # appeal deadline is 15 days long since successfully delivery of the court decision
+    APPEAL_DEADLINE = 15  # appeal deadline is 15 days long since successfully delivery of the court decision
 
     @staticmethod
     def is_weekend(arg_date):
@@ -69,8 +67,7 @@ class LegalForce:
             date(year, 12, 24),  # Christmas Eve
             date(year, 12, 25),  # First Day of Christmas
             date(year, 12, 26),  # Second Day of Christmas
-            #date(year + 1, 1, 1),  # next New year -> since appeal window is just 15 days and no other public
-        ]                                       # holiday falls on January, this is enough
+        ]
 
         return holidays
 
