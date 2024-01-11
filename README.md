@@ -33,6 +33,11 @@ The interactive mode with its cyclical nature is useful for court officers, sinc
 
 If you run the legal_force.py module directly, you will enter the interactive mode of LegalForceManager.
 
+*** 
+*** Requirements ***
+
+Please note that you will need python3 interpreter (see https://www.python.org/) and python-dateutil library installed (simply write 'pip install python-dateutil' without the quotation marks into your console). See requirements.txt.
+
 ***
 *** I HOPE YOU WILL FIND THIS PROJECT USEFUL!
 
