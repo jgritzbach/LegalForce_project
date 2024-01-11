@@ -69,7 +69,7 @@ class LegalForce:
             date(year, 12, 24),  # Christmas Eve
             date(year, 12, 25),  # First Day of Christmas
             date(year, 12, 26),  # Second Day of Christmas
-            date(year + 1, 1, 1),  # next New year -> since appeal window is just 15 days and no other public
+            #date(year + 1, 1, 1),  # next New year -> since appeal window is just 15 days and no other public
         ]                                       # holiday falls on January, this is enough
 
         return holidays
