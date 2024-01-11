@@ -10,6 +10,17 @@ class LegalForce:
     APPEAL_DEADLINE = 15  # appeal deadline is 15 days long since successfully delivery of the court decision
 
     @staticmethod
+    def legal_force(arg_date):
+        """
+        Returns the moment of legal force based on a given date
+        """
+        arg_date += timedelta(LegalForce.APPEAL_DEADLINE)  # the last day of 15-day deadline
+        arg_date = LegalForce.shift_to_workday(arg_date)  # which always has to end on an ordinary workday
+        arg_date += timedelta(1)  # on the 1st day after appeal deadline, the court decision is legally binding
+
+        return arg_date
+
+    @staticmethod
     def is_weekend(arg_date):
         """
         returns True if given date is saturday or sunday. Otherwise, returns False
