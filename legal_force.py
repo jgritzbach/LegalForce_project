@@ -7,89 +7,52 @@ class LegalForce:
     a tool related to the computations of a legal force of court decisions in the Czech Republic
     """
 
-    def __init__(self, given_date=None):
-        """
-        all computations are related to a given date, expected to be passed on creation. If omitted, today is passed.
-        The given date is stored as instance property and can be changed later by setting the property on different date
-        """
+    def __init__(self):
+
         self.__APPEAL_DEADLINE = 15  # appeal deadline is 15 days long since successfully delivery of the court decision
 
-        # date validation and holiday recalculation are flags that can be turned off
-        self.__validate_dates = True  # date validation may be skipped (f.e. iterations of previously checked date)
-        self.__recalculate_holidays = True  # recalculating holidays may be skipped for the same reason
-
-        if given_date is None:
-            given_date = date.today()  # if date is not specified, it will be today
-
-        self.given_date = given_date
-
-    @property
-    def given_date(self):
-        """
-        returns inner property of given date
-        """
-        return self.__given_date
-
-    @given_date.setter
-    def given_date(self, arg_date):
-        """
-        Sets given date as inner property.
-        If passed argument is invalid date or datetime object, TypeError is raised
-        """
-
-        # anytime given date is to be set, arg_date is validated and holidays are recalculated, unless turned off
-
-        self.__given_date = self.__valid_date(arg_date) if self.__validate_dates else arg_date
-
-        if self.__recalculate_holidays:
-            self.__set_holidays()
-
-    def is_workday(self):
-        """
-        returns True if given date is ordinary workday. Otherwise, returns False
-        """
-
-        return not (self.is_weekend() or self.is_public_holiday())
-
-    def is_weekend(self):
+    @staticmethod
+    def is_weekend(arg_date):
         """
         returns True if given date is saturday or sunday. Otherwise, returns False
         """
+        return arg_date.isoweekday() in {6, 7}
 
-        return self.given_date.weekday() in {5, 6}
-
-    def is_public_holiday(self):
+    @staticmethod
+    def is_public_holiday(arg_date):
         """
         returns True if given date is czech public holiday. Otherwise, returns False
         """
 
-        return self.given_date in self.__holidays
+        return arg_date in LegalForce.czech_public_holidays(arg_date.year)
 
-    def shift_to_workday(self):
+    @staticmethod
+    def is_workday(arg_date):
         """
-        shifts given date to the nearest workday, if not workday already, and returns the given date
+        returns True if given date is ordinary workday. Otherwise, returns False
         """
-        # we temporarily disable date validation and holiday recalculation
-        # since given date is manipulated by timedelta, we can be sure that date type is still valid
-        # since just one day per each iteration is added, recalculating holiday for the whole year is not necessary
-        self.__validate_dates = False
-        self.__recalculate_holidays = False
-        try:
-            # since consecutive holidays can occur in the Cezch republic, using while cycle is the most straighforward
-            while not self.is_workday():
-                self.given_date += timedelta(1)
-        finally:  # even if something ever goes wrong, we always at least
-            self.__validate_dates = True  # turn back on the date validation
-            self.__recalculate_holidays = True  # holiday recalculation
 
-        self.__set_holidays()  # since holiday recalculation was turned off, we recalculate now
-        return self.given_date
+        return not (LegalForce.is_weekend(arg_date) or LegalForce.is_public_holiday(arg_date))
 
-    def czech_public_holidays(self):
+    @staticmethod
+    def shift_to_workday(arg_date):
+        """
+        shifts given date to the nearest ordinary workday, if not being ordinary workday already, and returns it
+        """
+        while not LegalForce.is_workday(arg_date):
+            arg_date += timedelta(1)
+
+        return arg_date
+
+    @staticmethod
+    def czech_public_holidays(year=None):
         """
         returns a list of date objects of public holidays in the Czech Republic for a year relevant to the given date
+        if no year is passed, the current year is default
         """
-        year = self.given_date.year
+        if year is None:
+            year = date.today().year
+
         easter_date = easter.easter(year)
 
         holidays = [
@@ -111,7 +74,8 @@ class LegalForce:
 
         return holidays
 
-    def __valid_date(self, date_to_test):
+    @staticmethod
+    def valid_date(date_to_test):
         """
         raises TypeError if passed argument is not an instance of either date or datetime object
         otherwise returns the passed argument intact
@@ -120,8 +84,3 @@ class LegalForce:
             raise TypeError
 
         return date_to_test
-
-    def __set_holidays(self):
-        """calculates holidays relevant to the year of the given date and sets them as instance inner parameter
-        """
-        self.__holidays = self.czech_public_holidays()
