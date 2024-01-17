@@ -2,7 +2,7 @@
 
 ## Welcome to the LegalForce project! 
 
-The LegalForce project is a tool related to the ***computations of a legal force of court decisions*** in the Czech Republic.
+The LegalForce project is a tool related to the ***computations of a legal force of court decisions*** in the Czech Republic.<br><br>
 It is a custom project crafted by a self-taught developer who also happens to be a senior court officer in the Czech Republic. Feel free to raise any issue about the code quality and suggest improvements!
 
 
