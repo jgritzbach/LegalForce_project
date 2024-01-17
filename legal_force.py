@@ -5,7 +5,7 @@ from dateutil import easter
 class LegalForceManager:
     """Serves for user interaction with the LegalForce class
 
-    LegalForce can be used by other parts of your program through its methods behaving like "API"
+    LegalForce class itself can be used for calculations alone by other parts of your program, not relying on user.
     However, with this manager, it can be used to compute legal force by interacting with the user
     """
 
@@ -62,7 +62,7 @@ class LegalForceManager:
 
 class LegalForce:
     """
-    a tool related to the computations of a legal force of court decisions in the Czech Republic
+    A tool related to the computations of a legal force of court decisions in the Czech Republic
     """
 
     APPEAL_DEADLINE = 15  # appeal deadline is 15 days long since successfully delivery of the court decision
