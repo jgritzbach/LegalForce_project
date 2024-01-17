@@ -2,12 +2,11 @@
 
 ## Welcome to the LegalForce project! 
 
+The LegalForce project is a tool related to the ***computations of a legal force of court decisions*** in the Czech Republic.
 It is a custom project crafted by a self-taught developer who also happens to be a senior court officer in the Czech Republic. Feel free to raise any issue about the code quality and suggest improvements!
 
 
 ## Main idea
-
-The LegalForce project is a tool related to the **computations of a legal force of court decisions** in the Czech Republic.
 
 In the Czech Republic, when a court issues a resolution, the parties can appeal against the resolution (unless the specific type of resolution prevents it). Only when this appeal opportunity is lost (or when the appeal itself is not successful) the court decision will become legally binding. 
 
@@ -21,18 +20,18 @@ This project should help you calculate the moment of legal force despite complic
 ## Usage
 
 The module logic is split into two main classes:
-1) __LegalForce__ class performs the calculations
-2) __LegalForceManager__ class serves for direct user interactions
+1) ***LegalForce*** class performs the calculations
+2) ***LegalForceManager*** class serves for direct user interactions
 
-__LegalForce__ class is a relatively independent part of the project serving merely for computations. This class itself does not require any user interaction to function. You can use it simply as a calculation tool for your other programs. For example, you can use it to count legal force dates for a large dataset of dates from your database. The main method here is __legal_force()__ which accepts a date object and calculates the date of the legal force since this date.
+***LegalForce*** class is a relatively independent part of the project serving merely for computations. This class itself does not require any user interaction to function. You can use it simply as a calculation tool for your other programs. For example, you can use it to count legal force dates for a large dataset of dates from your database. The main method here is *legal_force()* which accepts a date object and calculates the date of the legal force since this date.
 
-__LegalForceManager__ class communicates with the user through CLI and prompts him to input a date. It then uses the LegalForce class to calculate the date of the legal force and prints it back to the console. It repeats the cycle until the user decides to quit. The main method here is __interact()__ to start the interaction with the user through CLI. The interactive mode with its cyclical nature is useful for court officers since it is a very common technique for them to calculate many legal force dates at once, after they pile up in their office. 
+***LegalForceManager*** class communicates with the user through CLI and prompts him to input a date. It then uses the LegalForce class to calculate the date of the legal force and prints it back to the console. It repeats the cycle until the user decides to quit. The main method here is *interact()* to start the interaction with the user through CLI. The interactive mode with its cyclical nature is useful for court officers since it is a very common technique for them to calculate many legal force dates at once, after they pile up in their office. 
 
-**If you run the legal_force.py module directly** by __python -m legal_force__ command, you will enter the interactive mode of LegalForceManager**.
+**If you run the legal_force.py module directly** by __python -m legal_force__ command, you will enter *the interactive mode* of LegalForceManager.
 
 ## Requirements
 
-Please note that you will need a python3 interpreter (see https://www.python.org/) and python-dateutil library installed (simply write 'pip install python-dateutil' without the quotation marks into your console). See requirements.txt.
+Please note that you will need a *python3 interpreter* (see https://www.python.org/) and *python-dateutil* library installed (simply write 'pip install python-dateutil' without the quotation marks into your console). See *requirements.txt*.
 
 
 ## Issues 
