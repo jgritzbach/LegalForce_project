@@ -1,5 +1,6 @@
 from datetime import date, datetime, timedelta
 from dateutil import easter
+import string
 
 
 class LegalForceManager:
@@ -32,7 +33,7 @@ class LegalForceManager:
             # acquiring the input
             arg_date = None  # reset the date provided by the user in each cycle to enable
             user_input = input(prompt)
-            user_input = user_input.replace(" ", "")  # we trim any spaces, even in the middle
+            user_input = ''.join(char for char in user_input if char not in string.whitespace)  # removing whitespaces
 
             # if user wants to quit
             if user_input.lower() in quit_by:  # any of the quiting phrase
