@@ -17,7 +17,7 @@ class LegalForceManager:
         This is useful, since it is very common technique for court officers to count many legal force dates at once.
         """
 
-        print('\nWelcome to interactive counter of legal force!\n')
+        print('\nWelcome to interactive calculator of legal force!\n')
         print(("Fill in the date of successful delivery of the court decision \n"
                "to the last party with the right to appeal.\n"
                "(or keep blank and press ENTER to quit)\n"))
