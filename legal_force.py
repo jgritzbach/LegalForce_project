@@ -24,7 +24,7 @@ class LegalForceManager:
 
         quit_by = {"", "q", 0, "quit", "quit()", "exit", "exit()", "abort", "abort()", }
         allowed_formats = ["%y-%m-%d", "%Y-%m-%d", "%y.%m.%d", "%Y.%m.%d", "%y,%m,%d", "%Y,%m,%d"]
-        prompt = "fill in the date (y-m-d): "  # more formats are supported, although the prompt is brief at first
+        prompt = "\nfill in the date (y-m-d): "  # more formats are supported, although the prompt is brief at first
         user_input = True  # default input is True to start the cycle
 
         while user_input:
@@ -52,7 +52,10 @@ class LegalForceManager:
 
             if arg_date:  # if the date object was successfully constructed from the user input
                 legal_force_date = LegalForce.legal_force(arg_date)  # we can pass it to LegalForce for calculation
-                print(f'the date of the legal force: {legal_force_date}\n')  # and print it
+                print(f'the date of the legal force: {legal_force_date}')  # and print it
+
+                if legal_force_date > date.today():  # if date of the legal force lies in a future
+                    print('Please note that this is a future date!')  # we remind the user
 
             else:  # if the user input did not fit any of the allowed formats, we notify the user
                 print(f'\n{user_input} is an inappropriate date format!\n')
