@@ -23,7 +23,7 @@ class LegalForceManager:
                "to the last party with the right to appeal.\n"
                "(or keep blank and press ENTER to quit)\n"))
 
-        quit_by = {"", "q", 0, "quit", "quit()", "exit", "exit()", "abort", "abort()", }
+        quit_by = {"", "q", 0, "quit", "quit()", "exit", "exit()", "abort", "abort()", "stop", "stop()"}
         allowed_formats = ["%y-%m-%d", "%Y-%m-%d", "%y.%m.%d", "%Y.%m.%d", "%y,%m,%d", "%Y,%m,%d"]
         prompt = "\nfill in the date (y-m-d): "  # more formats are supported, although the prompt is brief at first
         user_input = True  # default input is True to start the cycle
